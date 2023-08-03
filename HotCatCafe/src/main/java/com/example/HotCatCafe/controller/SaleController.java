@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HotCatCafe.exceptions.EmployeeNotFoundException;
@@ -22,33 +22,33 @@ public class SaleController {
     @Autowired
     SaleService saleService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<SaleDTO> getAllSales() {
         return saleService.getAllSales();
     }
 
-    @GetMapping("/byId")
-    public SaleDTO findSaleById(Long id) throws SaleNotFoundException {
+    @GetMapping("/id/{id}")
+    public SaleDTO findSaleById(@PathVariable Long id) throws SaleNotFoundException {
         return saleService.findSaleById(id);
     }
 
-    @GetMapping("/byEmployeeId")
-    public List<SaleDTO> getSalesByEmployeeId(@RequestParam Long employeeId) throws EmployeeNotFoundException {
+    @GetMapping("/emplyee/{id}")
+    public List<SaleDTO> getSalesByEmployeeId(@PathVariable Long employeeId) throws EmployeeNotFoundException {
         return saleService.getSalesByEmployeeId(employeeId);
     }
 
-    @GetMapping("/byOrderId")
-    public SaleDTO getSalesByOrderId(@RequestParam Long orderId) throws OrderNotFoundException, SaleNotFoundException {
+    @GetMapping("/order/{id}")
+    public SaleDTO getSalesByOrderId(@PathVariable Long orderId) throws OrderNotFoundException, SaleNotFoundException {
         return saleService.getSalesByOrderId(orderId);
     }
 
-    @PostMapping("/insert")
-    public SaleDTO insertSale(@RequestParam Long orderId, @RequestParam Long employeeId) throws OrderNotFoundException, EmployeeNotFoundException{
+    @PostMapping("/{orderId}&{employeeId}")
+    public SaleDTO insertSale(@PathVariable Long orderId, @PathVariable Long employeeId) throws OrderNotFoundException, EmployeeNotFoundException{
         return saleService.insertSale(orderId, employeeId);
     }
 
-    @DeleteMapping("/delete")
-    public Long deleteSaleById(@RequestParam Long id) throws SaleNotFoundException{
+    @DeleteMapping("/{id}")
+    public Long deleteSaleById(@PathVariable Long id) throws SaleNotFoundException{
         return saleService.deleteSaleById(id);
     }
 }

@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HotCatCafe.exceptions.CategoryNotFoundException;
@@ -23,25 +23,25 @@ public class ExtraController {
     @Autowired
     ExtraService extraService;
 
-    @GetMapping("/getAll")
+    @GetMapping
       public List<ExtraDTO> getAllExtras(){
         return extraService.getAllExtras();
     }
-    @GetMapping("/byCategoryName")
-    public List<ExtraDTO> getExtrasByCategory(@RequestParam String categoryName) throws CategoryNotFoundException{
+    @GetMapping("/name/{categoryName}")
+    public List<ExtraDTO> getExtrasByCategory(@PathVariable String categoryName) throws CategoryNotFoundException{
         return extraService.getExtrasByCategory(categoryName);
     }
-    @GetMapping("/byId")
-    public ExtraDTO getExtraById(@RequestParam Long id) throws ExtraNotFoundException {
+    @GetMapping("/id/{id}")
+    public ExtraDTO getExtraById(@PathVariable Long id) throws ExtraNotFoundException {
         return extraService.getExtraById(id);
     }
-    @PostMapping("/add")
+    @PostMapping
     public Long addExtra(@RequestBody ExtraDTO extraDTO) throws CategoryNotFoundException {
         return extraService.addExtra(extraDTO);
     }
 
-    @DeleteMapping("/deleteById")
-    public String deleteById(@RequestParam Long id) throws ExtraNotFoundException {
+    @DeleteMapping("/{id}")
+    public String deleteById(@PathVariable Long id) throws ExtraNotFoundException {
         return extraService.deleteById(id);
     }
 

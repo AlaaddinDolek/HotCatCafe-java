@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.HotCatCafe.exceptions.CategoryNotFoundException;
@@ -23,63 +23,63 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/byId")
-    public ProductDTO findById(@RequestParam Long id) throws ProductNotFoundException {
+    @GetMapping("/id/{id}")
+    public ProductDTO findById(@PathVariable Long id) throws ProductNotFoundException {
         return productService.findById(id);
     }
 
-    @GetMapping("/byProductName")
-    public ProductDTO findByProductName(@RequestParam String productName) throws ProductNotFoundException {
+    @GetMapping("/name/{productName}")
+    public ProductDTO findByProductName(@PathVariable String productName) throws ProductNotFoundException {
         return productService.findByProductName(productName);
     }
 
-    @GetMapping("/byCategoryId")
-    public List<ProductDTO> findByCategoryId(@RequestParam Long categoryId) throws CategoryNotFoundException {
+    @GetMapping("/category/{id}")
+    public List<ProductDTO> findByCategoryId(@PathVariable Long categoryId) throws CategoryNotFoundException {
         return productService.findByCategoryId(categoryId);
     }
 
-    @GetMapping("/priceGreater")
-    public List<ProductDTO> findTotalPriceGreaterThan(@RequestParam BigDecimal price) {
+    @GetMapping("/price/greater/{price}")
+    public List<ProductDTO> findTotalPriceGreaterThan(@PathVariable BigDecimal price) {
         return productService.findTotalPriceGreaterThan(price);
     }
 
-    @GetMapping("/priceBetween")
-    public List<ProductDTO> findTotalPriceBetween(@RequestParam BigDecimal minPrice, @RequestParam BigDecimal maxPrice) {
+    @GetMapping("/price/between/{minPrice}&{maxPrice}")
+    public List<ProductDTO> findTotalPriceBetween(@PathVariable BigDecimal minPrice, @PathVariable BigDecimal maxPrice) {
         return productService.findTotalPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/priceLess")
-    public List<ProductDTO> findTotalPriceLessThan(@RequestParam BigDecimal price) {
+    @GetMapping("/price/less/{price}")
+    public List<ProductDTO> findTotalPriceLessThan(@PathVariable BigDecimal price) {
         return productService.findTotalPriceLessThan(price);
     }
 
-    @GetMapping("/stockLess")
-    public List<ProductDTO> findUnitInStockLessThan(@RequestParam Integer stock) {
+    @GetMapping("/stock/less/{stock}")
+    public List<ProductDTO> findUnitInStockLessThan(@PathVariable Integer stock) {
         return productService.findUnitInStockLessThan(stock);
     }
 
-    @GetMapping("/stockGreater")
-    public List<ProductDTO> findUnitInStockGreaterThan(@RequestParam Integer stock) {
+    @GetMapping("/stock/greater/{stock}")
+    public List<ProductDTO> findUnitInStockGreaterThan(@PathVariable Integer stock) {
         return productService.findUnitInStockGreaterThan(stock);
     }
 
-    @GetMapping("/stockBetween")
-    public List<ProductDTO> findUnitInStockBetween(@RequestParam Integer minStock, @RequestParam Integer maxStock) {
+    @GetMapping("/stock/between/{minStock}&{maxStock}")
+    public List<ProductDTO> findUnitInStockBetween(@PathVariable Integer minStock, @PathVariable Integer maxStock) {
         return productService.findUnitInStockBetween(minStock, maxStock);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public Long addProduct(@RequestBody ProductDTO productDTO) throws CategoryNotFoundException {
         return productService.addProduct(productDTO);
     }
 
-    @PutMapping("/update")
-    public ProductDTO updateProducy(@RequestBody ProductDTO productDTO, @RequestParam Long productId) throws ProductNotFoundException {
+    @PutMapping("/{id}")
+    public ProductDTO updateProducy(@RequestBody ProductDTO productDTO, @PathVariable Long productId) throws ProductNotFoundException {
         return productService.updateProduct(productDTO,productId);
     }
 }
